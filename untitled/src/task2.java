@@ -1,15 +1,15 @@
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class task2 {
-    private static final BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+public class Task2 {
+    private static final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 
     public static void main(String[] args) {
         Thread threadA = new Thread(() -> {
             for (int i = 1; i <= 100; i++) {
-                if (i % 3 == 0 && i % 5 == 0) {
+                if (i % 3 == 0 && i % 5 != 0) {
                     try {
-                        queue.put("fizzbuzz");
+                        queue.put("fizz");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -19,7 +19,7 @@ public class task2 {
 
         Thread threadB = new Thread(() -> {
             for (int i = 1; i <= 100; i++) {
-                if (i % 5 == 0) {
+                if (i % 5 == 0 && i % 3 != 0) {
                     try {
                         queue.put("buzz");
                     } catch (InterruptedException e) {
@@ -31,9 +31,9 @@ public class task2 {
 
         Thread threadC = new Thread(() -> {
             for (int i = 1; i <= 100; i++) {
-                if (i % 3 == 0) {
+                if (i % 3 == 0 && i % 5 == 0) {
                     try {
-                        queue.put("fizz");
+                        queue.put("fizzbuzz");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -44,8 +44,12 @@ public class task2 {
         Thread threadD = new Thread(() -> {
             for (int i = 1; i <= 100; i++) {
                 try {
-                    String message = queue.take();
-                    System.out.println(message);
+                    Object item = queue.take();
+                    if (item instanceof String) {
+                        System.out.println(item);
+                    } else {
+                        System.out.println(i);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
