@@ -2,7 +2,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Task2 {
-    private static final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
+    private static final BlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
     public static void main(String[] args) {
         Thread threadA = new Thread(() -> {
@@ -44,9 +44,9 @@ public class Task2 {
         Thread threadD = new Thread(() -> {
             for (int i = 1; i <= 100; i++) {
                 try {
-                    Object item = queue.take();
-                    if (item instanceof String) {
-                        System.out.println(item);
+                    String message = queue.take();
+                    if (message != null) {
+                        System.out.println(message);
                     } else {
                         System.out.println(i);
                     }
